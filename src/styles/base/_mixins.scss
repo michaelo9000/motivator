@@ -1,0 +1,63 @@
+@mixin mobile(){
+    @media only screen and (max-width:$max-mobile-width){
+        @content;
+    }
+}
+@mixin not-mobile {
+    @media only screen and (min-width:calc(#{$max-mobile-width} + 1px)){
+        @content;
+    }
+}
+@mixin tablet(){
+    @media only screen and (min-width:calc(#{$max-mobile-width} + 1px)) and (max-width:calc(#{$max-tablet-width})) {
+        @content;
+    }
+}
+@mixin not-desktop {
+    @media only screen and (max-width:calc(#{$max-tablet-width})){
+        @content;
+    }
+}
+@mixin desktop(){
+    @media only screen and (min-width:calc(#{$max-tablet-width} + 1px)){
+        @content;
+    }
+}
+
+@mixin center-absolute($width){
+    left: calc(50% - calc(#{$width} / 2));
+}
+
+@mixin flex($direction:row, $justify:center, $align:center){
+    display:flex;
+    flex-direction: $direction;
+    justify-content: $justify;
+    align-items: $align;
+}
+
+.flex-column {
+    @include flex(column);
+}
+
+@mixin ignore-padding($padding){
+    width:calc(100% + calc(#{$padding} * 2));
+    margin-left:-$padding;
+    box-sizing:border-box;
+}
+
+%top-left {
+    position: absolute;
+    top:0;
+    left:0;
+}
+.top-left {
+    @extend %top-left;
+}
+%top-right {
+    position: absolute;
+    top:0;
+    right:0;
+}
+.top-right {
+    @extend %top-right;
+}
