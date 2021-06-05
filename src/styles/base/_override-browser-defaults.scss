@@ -61,7 +61,7 @@ input {
     background-color:transparent;
     color: $input-text-color;
     &::placeholder {
-        color: lighten($input-text-color, 10%);
+        color: lighten($input-text-color, 40%);
     }
 }
 

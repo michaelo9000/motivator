@@ -11,6 +11,8 @@ export default function Input(props) {
                 return "email";
             case "password":
                 return "password";
+            case "size":
+                return "number";
             default:
                 return "text";
         }
