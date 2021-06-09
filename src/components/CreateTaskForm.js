@@ -10,8 +10,7 @@ export default function CreateTaskForm() {
 
     const submit = function (e) {
         e.preventDefault();
-        let { name, ...details } = inputs;
-        createTask(name, details);
+        createTask(inputs);
     }
 
     return (

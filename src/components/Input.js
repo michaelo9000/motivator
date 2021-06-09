@@ -19,7 +19,7 @@ export default function Input(props) {
     }
 
     const getValue = function () {
-        return GetInput(props.group, props.name);
+        return GetInput(props.group, props.name) || "";
     }
 
     const setValue = function (e) {

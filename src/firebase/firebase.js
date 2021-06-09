@@ -29,35 +29,56 @@ function constructErrorResult(error) {
     }
 }
 
+export const getCurrentUser = function () {
+    return firebase.auth().currentUser;
+}
+
 export const createUser = async function (email, password) {
-    return new Promise((resolve) => {
+    return createUserPromise(
         firebase.auth().createUserWithEmailAndPassword(email, password)
-            .then((userCredential) => {
-                resolve(constructUserResult(userCredential));
-            })
-            .catch((error) => {
-                resolve(constructErrorResult(error));
-            });
-    })
-        .then(r => r);
+    );
 }
 
-export const loginUser = function (email, password) {
-    return new Promise((resolve) => {
+export const loginUser = async function (email, password) {
+    return createUserPromise(
         firebase.auth().signInWithEmailAndPassword(email, password)
+    );
+}
+
+const createUserPromise = async function (func) {
+    return new Promise((resolve) =>
+        func
             .then((userCredential) => {
                 resolve(constructUserResult(userCredential));
             })
             .catch((error) => {
                 resolve(constructErrorResult(error));
+            })
+    )
+        .then(async r => {
+            return r.isSuccess ? { ...r, data: await getUserData() } : r;
+        });
+}
+
+const getUserData = async function () {
+    let currentUser = getCurrentUser();
+    let userTasks = await getEqualTo('tasks', 'userId', currentUser.uid);
+    return { tasks: userTasks }
+}
+
+const getEqualTo = function (tableName, columnName, queryValue) {
+    return new Promise(resolve => {
+        db.ref(tableName).orderByChild(columnName).equalTo(queryValue)
+            .on('value', (snapshot) => {
+                resolve(snapshot.val());
             });
     })
         .then(r => r);
 }
 
-export const createTask = function (name, details) {
+export const createTask = function (details) {
     let userId = firebase.auth().currentUser.uid;
-    db.ref('tasks').child(name).set({ ...details, userId: userId });
+    db.ref('tasks').push({ userId: userId, ...details });
 }
 
 // let genericStructure = {

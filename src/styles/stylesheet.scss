@@ -6,7 +6,7 @@ body {
     padding:$site-padding;
 }
 
-form {
+form, .container {
     display:flex;
     flex-direction: column;
     justify-content: center;
@@ -16,6 +16,10 @@ form {
     padding:$site-padding;
     border:5px solid black;
     width:400px;
+
+    &:not(:last-child){
+        margin-bottom: $site-padding;
+    }
 }
 
 input, button, .switch-button, .alert {
