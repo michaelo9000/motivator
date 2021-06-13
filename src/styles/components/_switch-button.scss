@@ -1,0 +1,53 @@
+.switch-button-handle {
+    position: absolute;
+    top:$site-padding-slim;
+    width:40%;
+    height:40px;
+    background-color: blue;
+    border:5px outset aqua;
+}
+.switch-button-label {
+    position:absolute;
+    top:50%;
+    z-index:9;
+    &.left {
+        transform: translate(-50%, -50%);
+        left:calc(20% + #{$site-padding-slim});
+    }
+    &.right {
+        transform: translate(50%, -50%);
+        right:calc(20% + #{$site-padding-slim});
+    }
+}
+
+.switch-button {
+    @extend %rectangle;
+    position: relative;
+    &.left {
+        .switch-button-handle {
+            right:auto;
+            left:$site-padding-slim;
+        }
+        .switch-button-label.left {
+            color:#fff;
+        }
+        .switch-button-label.right {
+            color:blue;
+        }
+    }
+    &.right {
+        .switch-button-handle {
+            left:auto;
+            right:$site-padding-slim;
+        }
+        .switch-button-label.left {
+            color:blue;
+        }
+        .switch-button-label.right {
+            color:#fff;
+        }
+    }
+    &:hover {
+        cursor:pointer;
+    }
+}

@@ -35,10 +35,6 @@
     align-items: $align;
 }
 
-.flex-column {
-    @include flex(column);
-}
-
 @mixin ignore-padding($padding){
     width:calc(100% + calc(#{$padding} * 2));
     margin-left:-$padding;
@@ -60,4 +56,10 @@
 }
 .top-right {
     @extend %top-right;
+}
+
+@mixin circle($size){
+    width: $size;
+    height:$size;
+    border-radius: $size;
 }

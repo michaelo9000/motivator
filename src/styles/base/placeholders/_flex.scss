@@ -1,0 +1,7 @@
+.flex-row {
+    @include flex(row);
+    width:100%;
+    &.between {
+        justify-content: space-between;
+    }
+}

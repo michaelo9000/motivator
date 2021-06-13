@@ -1,0 +1,16 @@
+%container {
+    @include flex(column, center, flex-start);
+    
+    margin:auto;
+    padding:$site-padding;
+    border:5px solid black;
+    background-color: white;
+    width:400px;
+
+    &:not(:last-child){
+        margin-bottom: $site-padding;
+    }
+}
+.container {
+    @extend %container;
+}

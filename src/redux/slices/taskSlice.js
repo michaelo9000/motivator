@@ -6,26 +6,23 @@ export const userSlice = createSlice({
     name: 'task',
     initialState: initialState,
     reducers: {
-        newTask: (state, action) => {
-            // Redux Toolkit allows us to write "mutating" logic in reducers. It
-            // doesn't actually mutate the state because it uses the Immer library,
-            // which detects changes to a "draft state" and produces a brand new
-            // immutable state based off those changes.
-            state.email = action.payload;
+        signIn: (state, action) => action.payload || initialState,
+        logOut: () => initialState,
+        create: (state, action) => {
+            state['pending'] = action.payload;
         },
-        error: (state, action) => {
-            state.error = action.payload;
+        updateFromSnapshot: (state, action) => {
+            state[action.payload.key] = action.payload.val;
+            delete state.pending;
         },
-        clearError: (state) => {
-            state.error = null;
-        },
-        logOut: (state) => {
-            state = initialState;
-        },
+        updateFromLocal: (state, action) => {
+            let { id, ...details } = action.payload;
+            state[id] = details;
+        }
     },
 })
 
 // Action creators are generated for each case reducer function but you still have to fuckin list them all
-export const { logIn, logOut, error, clearError } = userSlice.actions
+export const { signIn, logOut, create, updateFromSnapshot, updateFromLocal } = userSlice.actions
 
 export default userSlice.reducer

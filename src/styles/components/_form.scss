@@ -1,0 +1,6 @@
+form {
+    @extend %container;
+}
+input, button {
+    @extend %rectangle;
+}

@@ -15,9 +15,13 @@ if (!firebase.apps.length)
 
 var db = firebase.database();
 
+export const logOut = function () {
+    firebase.auth().signOut();
+}
+
 function constructUserResult(user) {
     return {
-        email: user.user.email,
+        id: user.user.uid,
         isSuccess: true
     }
 }
@@ -29,23 +33,42 @@ function constructErrorResult(error) {
     }
 }
 
-export const getCurrentUser = function () {
-    return firebase.auth().currentUser;
+const addEqualToListener = function (tableName, columnName, queryValue, eventType, callback) {
+    db.ref(tableName).orderByChild(columnName).equalTo(queryValue)
+        .on(eventType, (snapshot) => {
+            callback(tableName, snapshot);
+        });
 }
 
-export const createUser = async function (email, password) {
+const getEqualTo = function (tableName, columnName, queryValue) {
+    return new Promise(resolve => {
+        db.ref(tableName).orderByChild(columnName).equalTo(queryValue)
+            .on('value', (snapshot) => {
+                resolve(snapshot);
+            });
+    })
+        .then(r => r);
+}
+
+export const getCurrentUser = async function () {
+    return await firebase.auth().currentUser;
+}
+
+export const createUser = async function (details, listenersCallback) {
     return createUserPromise(
-        firebase.auth().createUserWithEmailAndPassword(email, password)
+        firebase.auth().createUserWithEmailAndPassword(details.email, details.password)
+        , details, false, listenersCallback
     );
 }
 
-export const loginUser = async function (email, password) {
+export const signInUser = async function (details, listenersCallback) {
     return createUserPromise(
-        firebase.auth().signInWithEmailAndPassword(email, password)
+        firebase.auth().signInWithEmailAndPassword(details.email, details.password)
+        , details, true, listenersCallback
     );
 }
 
-const createUserPromise = async function (func) {
+const createUserPromise = async function (func, details, isSignIn, listenersCallback) {
     return new Promise((resolve) =>
         func
             .then((userCredential) => {
@@ -56,29 +79,42 @@ const createUserPromise = async function (func) {
             })
     )
         .then(async r => {
-            return r.isSuccess ? { ...r, data: await getUserData() } : r;
+            if (!r.isSuccess)
+                return r;
+
+            if (!isSignIn) {
+                db.ref('userDetails').push({ userId: r.id, ...details });
+            }
+
+            var data = isSignIn ? await getUserData(r.id) : {};
+            addListeners(r.id, listenersCallback);
+
+            return { ...r, ...details, data: data }
         });
 }
 
-const getUserData = async function () {
-    let currentUser = getCurrentUser();
-    let userTasks = await getEqualTo('tasks', 'userId', currentUser.uid);
-    return { tasks: userTasks }
+export const addListeners = function (userId, callback) {
+    addEqualToListener('tasks', 'userId', userId, 'child_added', callback)
+    addEqualToListener('tasks', 'userId', userId, 'child_changed', callback)
 }
 
-const getEqualTo = function (tableName, columnName, queryValue) {
-    return new Promise(resolve => {
-        db.ref(tableName).orderByChild(columnName).equalTo(queryValue)
-            .on('value', (snapshot) => {
-                resolve(snapshot.val());
-            });
-    })
-        .then(r => r);
+export const getUserData = async function (userId) {
+    let userTasks = await getEqualTo('tasks', 'userId', userId);
+    return { tasks: userTasks.val() }
 }
 
-export const createTask = function (details) {
-    let userId = firebase.auth().currentUser.uid;
+export const createTask = function (details, userId) {
     db.ref('tasks').push({ userId: userId, ...details });
+}
+
+const separateId = function (object) {
+    let { id, ...details } = object;
+    return { id: id, details: details };
+}
+
+export const updateTask = function (taskData) {
+    let task = separateId(taskData);
+    db.ref(`tasks/${task.id}/`).set(task.details);
 }
 
 // let genericStructure = {

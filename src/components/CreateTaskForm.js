@@ -1,16 +1,21 @@
 import React from "react";
+import { useDispatch } from 'react-redux';
 import { createTask } from '../firebase/firebase';
+import { create } from '../redux/slices/taskSlice';
 import { GetReducer } from '../redux/interface';
 import Input from '../components/Input';
 
 const groupName = "createTask";
 
 export default function CreateTaskForm() {
-    let inputs = GetReducer('inputs')[groupName];
+    const dispatch = useDispatch();
+    const user = GetReducer('user');
+    const inputs = GetReducer('inputs')[groupName];
 
     const submit = function (e) {
         e.preventDefault();
-        createTask(inputs);
+        dispatch(create(inputs));
+        createTask(inputs, user.id);
     }
 
     return (

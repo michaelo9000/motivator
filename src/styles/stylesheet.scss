@@ -2,95 +2,37 @@
 @import './base/mixins';
 @import './base/override-browser-defaults';
 
+@import './base/placeholders/container';
+@import './base/placeholders/rectangle';
+@import './base/placeholders/flex';
+
+@import './components/form';
+@import './components/switch-button';
+@import './components/task';
+
 body {
     padding:$site-padding;
+    background-color:lightskyblue;
 }
-
-form, .container {
-    display:flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    
-    margin:auto;
-    padding:$site-padding;
-    border:5px solid black;
-    width:400px;
-
-    &:not(:last-child){
-        margin-bottom: $site-padding;
-    }
-}
-
-input, button, .switch-button, .alert {
-    width:100%;
-    height:64px;
-    padding:$site-padding;
-    margin-bottom:$site-padding;
-    border:2px solid black;
-    &:last-child {
-        margin-bottom:0;
-    }
-}
-
-.switch-button-handle {
-    position: absolute;
-    top:$site-padding-slim;
-    width:40%;
-    height:40px;
-    background-color: blue;
-    border:5px outset aqua;
-}
-.switch-button-label {
-    position:absolute;
-    top:50%;
-    z-index:9;
-    &.left {
-        transform: translate(-50%, -50%);
-        left:calc(20% + #{$site-padding-slim});
-    }
-    &.right {
-        transform: translate(50%, -50%);
-        right:calc(20% + #{$site-padding-slim});
-    }
-}
-.switch-button {
-    position: relative;
-    &.left {
-        .switch-button-handle {
-            right:auto;
-            left:$site-padding-slim;
-        }
-        .switch-button-label.left {
-            color:#fff;
-        }
-        .switch-button-label.right {
-            color:blue;
-        }
-    }
-    &.right {
-        .switch-button-handle {
-            left:auto;
-            right:$site-padding-slim;
-        }
-        .switch-button-label.left {
-            color:blue;
-        }
-        .switch-button-label.right {
-            color:#fff;
-        }
-    }
-    &:hover {
-        cursor:pointer;
-    }
-}
-
 .alert {
+    @extend %rectangle;
     color:#fff;
     &.bad {
         background-color: red;
     }
     &.good {
         background-color: green;
+    }
+}
+.logout {
+    @extend %top-left;
+    @include flex();
+    background-color:black;
+    color:white;
+    width:50px;
+    height:50px;
+    z-index: 9;;
+    &:hover {
+        cursor: pointer;
     }
 }

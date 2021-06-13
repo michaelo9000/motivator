@@ -1,0 +1,38 @@
+.task {
+    @extend %container;
+    &:hover {
+        cursor: pointer;
+        border:5px outset white;
+        .task-check {
+            border: 5px outset white;
+            background-color: green;
+            color:white;
+            .task-check-value {
+                display: none;
+            }
+            .task-check-checkmark {
+                display: block;
+            }
+        }
+    }
+    &:active {
+        border-style: inset;
+    }
+}
+.task-check {
+    @include flex();
+    @include circle(100px);
+    border:5px solid red;
+    background-color: white;
+    color:red;
+    .task-check-checkmark {
+        display: none;
+    }
+}
+.task.completed {
+    .task-check {
+        background-color:red;
+        color:white;
+
+    }
+}

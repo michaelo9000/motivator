@@ -1,0 +1,10 @@
+%rectangle {
+    width:100%;
+    height:64px;
+    padding:$site-padding;
+    margin-bottom:$site-padding;
+    border:2px solid black;
+    &:last-child {
+        margin-bottom:0;
+    }
+}
