@@ -50,15 +50,15 @@ const getEqualTo = function (tableName, columnName, queryValue) {
         .then(r => r);
 }
 
-const getFromKey = function (tableName, keyValue) {
-    return new Promise(resolve => {
-        db.ref(tableName).child(keyValue).get()
-            .then(snapshot => {
-                resolve(snapshot);
-            });
-    })
-        .then(r => r);
-}
+// const getFromKey = function (tableName, keyValue) {
+//     return new Promise(resolve => {
+//         db.ref(tableName).child(keyValue).get()
+//             .then(snapshot => {
+//                 resolve(snapshot);
+//             });
+//     })
+//         .then(r => r);
+// }
 
 export const getCurrentUser = async function () {
     return await firebase.auth().currentUser;
