@@ -1,0 +1,42 @@
+.hoard-icon {
+    @include flex(column);
+    width: 50px;
+    height: 40px;
+    background-color: gold;
+}
+$hoard-icon-border-width: 5px;
+.hoard-icon-top {
+    @include flex();
+    width: 100%;
+    height: 40%;
+}
+.hoard-icon-top-left {
+    width: $hoard-icon-border-width;
+    height: 100%;
+    border-top-left-radius: 100%;
+    background-color: white;
+}
+.hoard-icon-top-center {
+    width: calc(100% - calc(#{$hoard-icon-border-width} * 2));
+    height: 100%;
+    border-top: calc(#{$hoard-icon-border-width} / 2) solid white;
+}
+.hoard-icon-top-right {
+    width: $hoard-icon-border-width;
+    height: 100%;
+    border-top-right-radius: 100%;
+    background-color: white;
+}
+.hoard-icon-base {
+    width: 100%;
+    height: 60%;
+    border: $hoard-icon-border-width solid white;
+}
+.hoard-icon-keyhole {
+    @include circle(calc(#{$hoard-icon-border-width} * 2));
+    position: relative;
+    top: calc(#{$hoard-icon-border-width} * -1.5);
+    margin: auto;
+    border: calc(#{$hoard-icon-border-width} / 2) solid white;
+    background-color: gold;
+}

@@ -1,64 +1,72 @@
-#root, html, body {
+#root,
+html,
+body {
     margin: 0;
     padding: 0;
-    height:100%;
-    width:100%;
 }
 
 html * {
-    max-height:1000000px;
+    max-height: 1000000px;
+    max-width: 100%;
     box-sizing: border-box;
-    padding:0;
-    margin:0;
-}
-
-html {
-    // overflow: hidden;
+    padding: 0;
+    margin: 0;
+    z-index: 0;
 }
 
 body {
     font-family: $font-family;
-    font-style:  normal;
-    font-size:18px;
+    font-style: normal;
+    font-size: 18px;
     color: $body-color;
-    text-align:center;
-    line-height:1.5;
+    text-align: center;
+    line-height: 1.5;
+    padding: $site-padding;
+    padding-top: calc(#{$site-padding} + #{$hud-item-height});
+    background-color: lightskyblue;
     @include mobile {
-        font-size:16px;
+        font-size: 16px;
     }
 }
 
 p {
-    margin:0;
+    margin: 0;
 }
 
 button {
-    border:none;
-    color:inherit;
-    font-family:inherit;
+    border: none;
+    color: inherit;
+    font-family: inherit;
     &:hover {
-        cursor:pointer;
+        cursor: pointer;
+    }
+    &:disabled {
+        cursor: not-allowed;
     }
 }
 
-input, button, textarea {
+input,
+button,
+textarea {
+    font-size: 16px;
     //todo how is focus conveyed?
-    &:-webkit-autofill, &:-webkit-autofill:hover, &:-webkit-autofill:focus {
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover,
+    &:-webkit-autofill:focus {
         // Crazy. Counteract autofill background color by making the transition to it 80 minutes long
         transition: background-color 0s ease-in 9999s;
         -webkit-text-fill-color: $input-text-color;
     }
     &:focus {
-        outline:none;
+        outline: none;
     }
 }
 
 input {
-    padding:0;
-    border:none;
-    font-size:16px;
+    padding: 0;
+    border: none;
     font-family: inherit;
-    background-color:transparent;
+    background-color: transparent;
     color: $input-text-color;
     &::placeholder {
         color: lighten($input-text-color, 40%);
@@ -66,54 +74,57 @@ input {
 }
 
 //browser devs are convinced i'd never want anything but the default checkbox appearance
-input[type=checkbox], input[type=radio] {
+input[type="checkbox"],
+input[type="radio"] {
     visibility: hidden;
     // This depends on label element being after checkbox in the html sequence.
-    &:checked + label, &.default-checked + label {
+    &:checked + label,
+    &.default-checked + label {
         opacity: 1;
     }
 }
-.checkbox, .radio {
-    line-height:normal;
+.checkbox,
+.radio {
+    line-height: normal;
     position: relative;
-    min-width:16px;
-    max-width:16px;
-    height:16px;
+    min-width: 16px;
+    max-width: 16px;
+    height: 16px;
     @include flex();
     border: 2px solid $input-checkbox-color;
-    margin:0 10px 0 0;
+    margin: 0 10px 0 0;
     label {
-        color:$input-checkbox-color;
-        opacity:0;
+        color: $input-checkbox-color;
+        opacity: 0;
         @extend %top-left;
-        min-width:16px;
-        height:16px;
+        min-width: 16px;
+        height: 16px;
         line-height: 16px;
-        background-color:$input-checkbox-color;
+        background-color: $input-checkbox-color;
         &:hover {
-            cursor:pointer;
+            cursor: pointer;
         }
     }
     &:hover {
-        cursor:pointer;
+        cursor: pointer;
     }
 }
 .radio {
     border-color: $input-checkbox-color;
-    border-radius:50%;
+    border-radius: 50%;
     label {
-        color:$input-checkbox-color;
-        background-color:transparent;
-        border-radius:50%;
+        color: $input-checkbox-color;
+        background-color: transparent;
+        border-radius: 50%;
         &:after {
             position: absolute;
-            content:'';
+            content: "";
             background-color: $input-checkbox-color;
-            top:4px;
-            left:4px;
-            border-radius:50%;
-            min-width:8px;
-            height:8px;
+            top: 4px;
+            left: 4px;
+            border-radius: 50%;
+            min-width: 8px;
+            height: 8px;
         }
     }
 }

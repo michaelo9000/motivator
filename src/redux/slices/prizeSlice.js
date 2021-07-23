@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {};
 
 export const taskSlice = createSlice({
-    name: 'task',
+    name: 'prize',
     initialState: initialState,
     reducers: {
         signIn: (state, action) => action.payload || initialState,

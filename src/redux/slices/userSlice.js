@@ -13,7 +13,7 @@ export const userSlice = createSlice({
         clearError: (state) => {
             state.error = null;
         },
-        logOut: () => initialState,
+        logOut: (state) => { return { error: state.error } }
     },
 })
 

@@ -1,0 +1,17 @@
+.flex {
+    @include flex(row);
+    width: 100%;
+    &.column {
+        flex-direction: column;
+    }
+    &.between {
+        justify-content: space-between;
+    }
+    &.align-start {
+        align-items: flex-start;
+    }
+}
+.flex-row-wrap {
+    @include flex(row, space-around, flex-start);
+    flex-wrap: wrap;
+}

@@ -1,0 +1,53 @@
+$size: 75px;
+$depth: calc(#{$size} * 0.1);
+
+.circle-button {
+    position: relative;
+    @include circle(calc(#{$size} + #{$depth}));
+}
+
+.circle-button-surface {
+    display: none;
+    @include flex();
+    flex-shrink: 0;
+    @include circle($size);
+    @extend %top-left;
+    z-index: 1;
+    background-color: green;
+    color: white;
+}
+
+.circle-button-depth {
+    z-index: 0;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    @include circle($size);
+    $extension: calc(#{$depth} * 1.214);
+    width: calc(#{$size} + #{$extension});
+    transform-origin: calc(50% + calc(#{$extension} / 2)) 50%;
+    transform: rotate(45deg);
+    background-color: darken(green, 10%);
+}
+
+$hover-reduction: calc(#{$depth} / 5);
+.circle-button:hover {
+    .circle-button-surface {
+        cursor: pointer;
+        background-color: lighten(green, 5%);
+        top: $hover-reduction;
+        left: $hover-reduction;
+    }
+}
+
+$active-reduction: calc(#{$depth} / 2);
+.circle-button:active {
+    .circle-button-surface {
+        top: $active-reduction;
+        left: $active-reduction;
+    }
+    .circle-button-depth {
+        transform: none;
+        width: $size;
+    }
+}

@@ -1,0 +1,125 @@
+.hud {
+    @extend %top-left;
+    position: fixed;
+    @include flex();
+    background-color: black;
+    color: white;
+    width: $hud-item-small-width;
+    height: $hud-item-height;
+    z-index: 9;
+    @include mobile {
+        width: 25%;
+    }
+}
+.hud-logout {
+    background-color: black;
+    color: white;
+    &:hover {
+        cursor: pointer;
+    }
+}
+.hud-tokens {
+    left: auto;
+    right: 0;
+    background-color: red;
+    color: white;
+}
+.hud-tokens-animation {
+    @extend %top-left;
+    width: 100%;
+    padding: 10px;
+    font-size: 300%;
+    line-height: 30px;
+    background-color: red;
+    color: white;
+    opacity: 0;
+    &.show {
+        transition-duration: 1s;
+        opacity: 1;
+    }
+}
+
+.hud-hoard {
+    left: auto;
+    right: $hud-item-small-width;
+    background-color: gold;
+    @include mobile {
+        right: 25%;
+    }
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.hud-wheel {
+    left: $hud-item-small-width;
+    background-color: blue;
+    @include mobile {
+        left: 25%;
+    }
+    &:hover {
+        cursor: pointer;
+    }
+}
+.wheel-icon {
+    @include circle(42px);
+    @include flex();
+    border: 3px solid white;
+}
+.wheel-icon-pointer {
+    @include circle(10px);
+    transform: rotate(22.5deg);
+    background-color: white;
+    position: relative;
+    &:after {
+        content: "";
+        position: absolute;
+        top: -8px;
+        left: calc(50% - 3px);
+        border: 3px solid transparent;
+        border-bottom: 3px solid white;
+        transform: scaleY(2);
+    }
+}
+.wheel-icon-spoke {
+    position: absolute;
+    @include circle(42px);
+    &:after {
+        content: "";
+        @extend %top-left;
+        left: calc(50% - 0.5px);
+        width: 1px;
+        height: 42px;
+        background-color: white;
+    }
+    &.two {
+        transform: rotate(45deg);
+    }
+    &.three {
+        transform: rotate(90deg);
+    }
+    &.four {
+        transform: rotate(135deg);
+    }
+}
+
+.alert {
+    @extend .hud;
+    left: calc(#{$hud-item-small-width} * 2);
+    right: calc(#{$hud-item-small-width} * 2);
+    width: calc(100% - calc(4 * #{$hud-item-small-width}));
+    max-width: inherit;
+    color: #fff;
+    @include mobile {
+        width: 100%;
+        left: 0;
+        right: 0;
+        top: $hud-item-height;
+    }
+    &.bad {
+        background-color: red;
+    }
+    &.good {
+        background-color: green;
+    }
+}

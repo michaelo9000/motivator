@@ -14,16 +14,17 @@ export default function CreateTaskForm() {
 
     const submit = function (e) {
         e.preventDefault();
-        dispatch(create(inputs));
-        createTask(inputs, user.id);
+        let taskDetails = { ...inputs, count: 0 };
+        dispatch(create(taskDetails));
+        createTask(taskDetails, user.id);
     }
 
     return (
         <form onSubmit={submit}>
             <h1>Create a new task</h1>
             <Input name="name" humanName="Task name" group={groupName} />
-            <Input name="description" humanName="A short description" group={groupName} />
-            <Input name="size" humanName="# of 30 minute sessions to complete" group={groupName} />
+            <Input name="description" humanName="A short description" group={groupName} attributes={{ maxLength: "72" }} />
+            <Input name="time" humanName="Minutes to complete once" group={groupName} />
             <button>creat</button>
         </form>
     );

@@ -1,14 +1,17 @@
 // Media query params
-$max-mobile-width: 414px;
+$max-mobile-width: 450px;
 $max-tablet-width: 1024px;
 
 // px values
-$site-padding:20px;
-$site-padding-slim:10px;
+$site-padding: 20px;
+$site-padding-slim: 10px;
+// hud
+$hud-item-small-width: 100px;
+$hud-item-height: 50px;
 
 // Colors
-$body-color:#000;
-$input-text-color:$body-color;
+$body-color: #000;
+$input-text-color: $body-color;
 $input-checkbox-color: red;
 
 // Fonts

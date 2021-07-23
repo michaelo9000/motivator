@@ -1,14 +1,17 @@
 %container {
     @include flex(column, center, flex-start);
-    
-    margin:auto;
-    padding:$site-padding;
-    border:5px solid black;
-    background-color: white;
-    width:400px;
 
-    &:not(:last-child){
+    margin: auto;
+    padding: $site-padding;
+    border: 5px solid black;
+    background-color: white;
+    width: 400px;
+    max-width: 100%;
+    &:not(:last-child) {
         margin-bottom: $site-padding;
+    }
+    &.large {
+        width: 870px;
     }
 }
 .container {

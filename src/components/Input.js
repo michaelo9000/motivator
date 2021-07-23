@@ -27,6 +27,16 @@ export default function Input(props) {
     }
 
     return (
-        <input name={props.name} type={getInputType()} placeholder={props.humanName} onChange={setValue} value={getValue()} />
+        // <div>
+        // <label htmlFor={props.name}>{props.humanName}</label>
+        <input
+            name={props.name}
+            type={getInputType()}
+            placeholder={props.humanName}
+            onChange={setValue}
+            value={getValue()}
+            {...props.attributes}
+        />
+        // </div>
     );
 }

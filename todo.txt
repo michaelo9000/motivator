@@ -1,0 +1,10 @@
+
+
+claimed rewards go into hoard, to be redeemed when they're used.
+
+task types (x times per week or just whenevers)
+
+the wheeeeel - rounded token dust goes into a pool and generates golden tokens when there is enough.
+
+interest - for every token earned gain 2% interest on currently held tokens. 
+gain a token when this dust accumulates.

@@ -50,25 +50,35 @@ const getEqualTo = function (tableName, columnName, queryValue) {
         .then(r => r);
 }
 
+const getFromKey = function (tableName, keyValue) {
+    return new Promise(resolve => {
+        db.ref(tableName).child(keyValue).get()
+            .then(snapshot => {
+                resolve(snapshot);
+            });
+    })
+        .then(r => r);
+}
+
 export const getCurrentUser = async function () {
     return await firebase.auth().currentUser;
 }
 
-export const createUser = async function (details, listenersCallback) {
+export const createUser = async function (credentials, listenersCallback) {
     return createUserPromise(
-        firebase.auth().createUserWithEmailAndPassword(details.email, details.password)
-        , details, false, listenersCallback
+        firebase.auth().createUserWithEmailAndPassword(credentials.email, credentials.password)
+        , credentials, false, listenersCallback
     );
 }
 
-export const signInUser = async function (details, listenersCallback) {
+export const signInUser = async function (credentials, listenersCallback) {
     return createUserPromise(
-        firebase.auth().signInWithEmailAndPassword(details.email, details.password)
-        , details, true, listenersCallback
+        firebase.auth().signInWithEmailAndPassword(credentials.email, credentials.password)
+        , credentials, true, listenersCallback
     );
 }
 
-const createUserPromise = async function (func, details, isSignIn, listenersCallback) {
+const createUserPromise = async function (func, credentials, isSignIn, listenersCallback) {
     return new Promise((resolve) =>
         func
             .then((userCredential) => {
@@ -82,29 +92,50 @@ const createUserPromise = async function (func, details, isSignIn, listenersCall
             if (!r.isSuccess)
                 return r;
 
+            addListeners(r.id, listenersCallback);
+
             if (!isSignIn) {
-                db.ref('userDetails').push({ userId: r.id, ...details });
+                db.ref('userDetails').push({ userId: r.id, ...credentials });
             }
 
-            var data = isSignIn ? await getUserData(r.id) : {};
-            addListeners(r.id, listenersCallback);
+            var details = credentials;
+            if (isSignIn) {
+                details = await getUserDetails(r.id);
+                // Firebase returns the user's details like this:
+                // { -tHEuSeR'SkeY: { ...theirDetails } }
+                // So we have to access the nested object within the returned object.
+                details = details[Object.keys(details)[0]];
+                var data = await getUserData(r.id);
+            }
 
             return { ...r, ...details, data: data }
         });
 }
 
 export const addListeners = function (userId, callback) {
-    addEqualToListener('tasks', 'userId', userId, 'child_added', callback)
-    addEqualToListener('tasks', 'userId', userId, 'child_changed', callback)
+    addEqualToListener('tasks', 'userId', userId, 'child_added', callback);
+    addEqualToListener('tasks', 'userId', userId, 'child_changed', callback);
+    addEqualToListener('prizes', 'userId', userId, 'child_added', callback);
+    addEqualToListener('prizes', 'userId', userId, 'child_changed', callback);
+}
+
+export const getUserDetails = async function (userId) {
+    let userDetails = await getEqualTo('userDetails', 'userId', userId);
+    return userDetails.val();
 }
 
 export const getUserData = async function (userId) {
     let userTasks = await getEqualTo('tasks', 'userId', userId);
-    return { tasks: userTasks.val() }
+    let userPrizes = await getEqualTo('prizes', 'userId', userId);
+    return { tasks: userTasks.val(), prizes: userPrizes.val() }
 }
 
 export const createTask = function (details, userId) {
     db.ref('tasks').push({ userId: userId, ...details });
+}
+
+export const createPrize = function (details, userId) {
+    db.ref('prizes').push({ userId: userId, ...details });
 }
 
 const separateId = function (object) {
@@ -115,6 +146,11 @@ const separateId = function (object) {
 export const updateTask = function (taskData) {
     let task = separateId(taskData);
     db.ref(`tasks/${task.id}/`).set(task.details);
+}
+
+export const updatePrize = function (prizeData) {
+    let prize = separateId(prizeData);
+    db.ref(`prizes/${prize.id}/`).set(prize.details);
 }
 
 // let genericStructure = {

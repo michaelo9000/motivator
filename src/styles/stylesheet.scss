@@ -1,38 +1,60 @@
-@import './base/variables';
-@import './base/mixins';
-@import './base/override-browser-defaults';
+@import "./base/variables";
+@import "./base/mixins";
+@import "./base/override-browser-defaults";
+@import "./base/flex";
+@import "./base/misc";
 
-@import './base/placeholders/container';
-@import './base/placeholders/rectangle';
-@import './base/placeholders/flex';
+@import "./base/placeholders/container";
+@import "./base/placeholders/rectangle";
 
-@import './components/form';
-@import './components/switch-button';
-@import './components/task';
+@import "./components/form";
+@import "./components/switch-button";
+@import "./components/task";
+@import "./components/circle-button";
+@import "./components/hud";
+@import "./components/hoard";
+@import "./components/modal";
 
-body {
-    padding:$site-padding;
-    background-color:lightskyblue;
-}
-.alert {
-    @extend %rectangle;
-    color:#fff;
-    &.bad {
-        background-color: red;
+.coupon {
+    text-align: left;
+    @extend %container;
+    padding: 5px;
+    margin: $site-padding 0 0 !important;
+    &.redeemed {
+        color: grey;
+        .coupon-inner {
+            border-color: lightgrey;
+        }
     }
-    &.good {
-        background-color: green;
-    }
 }
-.logout {
-    @extend %top-left;
+.coupon-inner {
+    width: 100%;
+    padding: 5px;
+    border: 10px solid gold;
+}
+.coupon-title {
+    font-size: 150%;
+}
+.coupon-text {
+    max-width: calc(100% - 120px);
+}
+.barcode {
     @include flex();
-    background-color:black;
-    color:white;
-    width:50px;
-    height:50px;
-    z-index: 9;;
-    &:hover {
-        cursor: pointer;
+    height: 120px;
+    border: 5px solid black;
+    padding: 5px;
+    background-color: white;
+    .line {
+        height: 100%;
+        background-color: black;
+        &.thin {
+            width: 3px;
+        }
+        &.thick {
+            width: 5px;
+        }
+        &.gap {
+            background-color: transparent;
+        }
     }
 }

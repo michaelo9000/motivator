@@ -13,6 +13,7 @@ import storage from 'redux-persist/lib/storage';
 import userReducer from './slices/userSlice';
 import inputsReducer from './slices/inputsSlice';
 import tasksReducer from './slices/taskSlice';
+import prizesReducer from './slices/prizeSlice';
 
 const persistConfig = {
   key: 'root',
@@ -23,7 +24,8 @@ const persistConfig = {
 const rootReducer = combineReducers({
   user: userReducer,
   inputs: inputsReducer,
-  tasks: tasksReducer
+  tasks: tasksReducer,
+  prizes: prizesReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
