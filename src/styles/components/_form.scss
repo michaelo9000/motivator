@@ -1,6 +1,11 @@
 form {
     @extend %container;
 }
-input, button {
+input:not(.blend-in),
+button {
     @extend %rectangle;
+}
+
+input.blend-in {
+    line-height: 27px;
 }

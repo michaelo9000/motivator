@@ -4,7 +4,9 @@
     height: 40px;
     background-color: gold;
 }
+
 $hoard-icon-border-width: 5px;
+
 .hoard-icon-top {
     @include flex();
     width: 100%;
@@ -39,4 +41,48 @@ $hoard-icon-border-width: 5px;
     margin: auto;
     border: calc(#{$hoard-icon-border-width} / 2) solid white;
     background-color: gold;
+}
+
+.coupon {
+    text-align: left;
+    @extend %container;
+    padding: 5px;
+    margin: $site-padding 0 0 !important;
+    &.redeemed {
+        color: grey;
+        .coupon-inner {
+            border-color: lightgrey;
+        }
+    }
+}
+.coupon-inner {
+    width: 100%;
+    padding: 5px;
+    border: 10px solid gold;
+}
+.coupon-title {
+    font-size: 150%;
+}
+.coupon-text {
+    max-width: calc(100% - 120px);
+}
+.barcode {
+    @include flex();
+    height: 120px;
+    border: 5px solid black;
+    padding: 5px;
+    background-color: white;
+    .line {
+        height: 100%;
+        background-color: black;
+        &.thin {
+            width: 3px;
+        }
+        &.thick {
+            width: 5px;
+        }
+        &.gap {
+            background-color: transparent;
+        }
+    }
 }

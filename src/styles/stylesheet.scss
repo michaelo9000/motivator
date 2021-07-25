@@ -1,3 +1,25 @@
+@font-face {
+    font-family: "AnonymousPro";
+    src: url("../assets/fonts/AnonymousPro-Regular.ttf") format("truetype");
+    font-weight: normal;
+}
+@font-face {
+    font-family: "AnonymousPro";
+    src: url("../assets/fonts/AnonymousPro-Bold.ttf") format("truetype");
+    font-weight: bold;
+}
+@font-face {
+    font-family: "AnonymousPro";
+    src: url("../assets/fonts/AnonymousPro-Italic.ttf") format("truetype");
+    font-style: italic;
+}
+@font-face {
+    font-family: "AnonymousPro";
+    src: url("../assets/fonts/AnonymousPro-BoldItalic.ttf") format("truetype");
+    font-weight: bold;
+    font-style: italic;
+}
+
 @import "base/variables";
 @import "base/mixins";
 @import "base/override-browser-defaults";
@@ -15,47 +37,3 @@
 @import "components/hud";
 @import "components/hoard";
 @import "components/modal";
-
-.coupon {
-    text-align: left;
-    @extend %container;
-    padding: 5px;
-    margin: $site-padding 0 0 !important;
-    &.redeemed {
-        color: grey;
-        .coupon-inner {
-            border-color: lightgrey;
-        }
-    }
-}
-.coupon-inner {
-    width: 100%;
-    padding: 5px;
-    border: 10px solid gold;
-}
-.coupon-title {
-    font-size: 150%;
-}
-.coupon-text {
-    max-width: calc(100% - 120px);
-}
-.barcode {
-    @include flex();
-    height: 120px;
-    border: 5px solid black;
-    padding: 5px;
-    background-color: white;
-    .line {
-        height: 100%;
-        background-color: black;
-        &.thin {
-            width: 3px;
-        }
-        &.thick {
-            width: 5px;
-        }
-        &.gap {
-            background-color: transparent;
-        }
-    }
-}

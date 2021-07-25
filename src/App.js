@@ -16,38 +16,41 @@ import SignInForm from 'components/SignInForm';
 import Hoard from 'components/Hoard';
 import { minutesPerToken } from 'helpers/consts';
 
+var authUser = {};
+var hasListeners = false;
+var initialised = false;
+
 export default function App() {
   const dispatch = useDispatch();
-  const user = GetReducer('user');
+  const user = GetReducer('user') || { loaded: false };
   const tasks = firebaseArrayConvert(GetReducer('tasks'));
   const prizes = firebaseArrayConvert(GetReducer('prizes'));
   const [userFormIsSignIn, setUserFormIsSignIn] = useState();
-  const [hasListeners, setHasListeners] = useState();
-  const [initialised, setInitialised] = useState();
   const [confirmModal, setConfirmModal] = useState();
   const [tokenChange, setTokenChange] = useState();
   const [openHoard, setOpenHoard] = useState();
   const [openPrizeWheel, setOpenPrizeWheel] = useState();
 
-  var authUser = {};
-
   const onLoad = async function () {
     if (!initialised) {
       dispatch(clearError());
-      setInitialised(true);
+      initialised = true;
     }
 
+    if (!authUser.uid)
+      authUser = await getCurrentUser() || {};
+
     // Check whether the signed in user is the same as the user in cookies.
-    authUser = await getCurrentUser();
-    if (user?.id && authUser && user.id !== authUser.uid) {
+    if (user.loaded && user.id !== authUser.uid) {
       dispatch(error("User mismatch"));
       handleLogOut();
       return;
     }
 
     if (!hasListeners && user.id) {
+      console.log('added listeneers');
+      hasListeners = true;
       addListeners(user.id, userDataCallback);
-      setHasListeners(true);
       let userData = await getUserData(user.id);
       dispatch(tasksSignIn(userData.tasks));
       dispatch(prizesSignIn(userData.prizes));

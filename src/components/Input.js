@@ -16,10 +16,6 @@ export default function Input(props) {
         }
     }
 
-    const getValue = function () {
-        return GetInput(props.group, props.name) || "";
-    }
-
     const setValue = function (e) {
         let value = e.target.value;
         if (
@@ -33,6 +29,10 @@ export default function Input(props) {
         dispatch(updateInput({ group: props.group, name: props.name, value: value }));
     }
 
+    let editValue = GetInput(props.group, props.name);
+    let value = editValue == null ? props.value : editValue;
+    let displayValue = props.disabled ? props.value : value;
+
     return (
         // <div>
         // <label htmlFor={props.name}>{props.humanName}</label>
@@ -42,8 +42,12 @@ export default function Input(props) {
             type={props.type || detectInputType()}
             placeholder={props.humanName}
             onChange={setValue}
-            value={getValue()}
+            value={displayValue || ""}
             disabled={props.disabled}
+            // Input default width is defined by its size. Size the input by the char length of its value.
+            size={displayValue ? displayValue.length : 10}
+            // This is so that I don't have to, in this component, 
+            // provide for every possible input attribute one might want to use.
             {...props.attributes}
         />
         // </div>
