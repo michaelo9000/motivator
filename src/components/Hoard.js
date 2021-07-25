@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { updateFromLocal } from '../redux/slices/prizeSlice';
-import { updatePrize } from '../firebase/firebase';
-import Modal from './Modal';
+import { updateFromLocal } from 'redux/slices/prizeSlice';
+import { updateObject } from 'firebase-files/firebase';
+import Modal from 'components/Modal';
 
 export default function Hoard(props) {
     const dispatch = useDispatch();
@@ -11,7 +11,7 @@ export default function Hoard(props) {
         let redeemed = prize.redeemed || 0;
         prize.redeemed = redeemed + 1;
         dispatch(updateFromLocal(prize));
-        updatePrize(prize);
+        updateObject('prizes', prize);
     }
 
     let couponData = [];

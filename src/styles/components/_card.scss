@@ -1,17 +1,14 @@
-.task {
+.card {
     @extend %container;
+    position: relative;
     min-height: 250px;
     justify-content: space-between;
     text-align: left;
-}
-
-.prize {
-    @extend .task;
+    // For the close and edit buttons
+    padding-right: calc(50px + #{$site-padding});
 }
 
 .card-text {
-    //TODO var
-    max-width: calc(100% - 90px);
 }
 
 .card-name {

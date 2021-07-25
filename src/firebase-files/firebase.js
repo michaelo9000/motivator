@@ -1,4 +1,6 @@
-import firebase from 'firebase';
+import firebase from 'firebase/app';
+import "firebase/auth";
+import "firebase/database";
 
 var firebaseConfig = {
     apiKey: "AIzaSyCLEo3wpiSt3ka2L_qkeoCtz0UDP_Er97s",
@@ -50,16 +52,6 @@ const getEqualTo = function (tableName, columnName, queryValue) {
         .then(r => r);
 }
 
-// const getFromKey = function (tableName, keyValue) {
-//     return new Promise(resolve => {
-//         db.ref(tableName).child(keyValue).get()
-//             .then(snapshot => {
-//                 resolve(snapshot);
-//             });
-//     })
-//         .then(r => r);
-// }
-
 export const getCurrentUser = async function () {
     return await firebase.auth().currentUser;
 }
@@ -95,7 +87,7 @@ const createUserPromise = async function (func, credentials, isSignIn, listeners
             addListeners(r.id, listenersCallback);
 
             if (!isSignIn) {
-                db.ref('userDetails').push({ userId: r.id, ...credentials });
+                createObject('userDetails', credentials, r.id);
             }
 
             var details = credentials;
@@ -108,7 +100,7 @@ const createUserPromise = async function (func, credentials, isSignIn, listeners
                 var data = await getUserData(r.id);
             }
 
-            return { ...r, ...details, data: data }
+            return { ...r, ...details, data: data || {} }
         });
 }
 
@@ -130,27 +122,22 @@ export const getUserData = async function (userId) {
     return { tasks: userTasks.val(), prizes: userPrizes.val() }
 }
 
-export const createTask = function (details, userId) {
-    db.ref('tasks').push({ userId: userId, ...details });
+export const createObject = function (table, details, userId) {
+    db.ref(table).push({ userId: userId, ...details });
 }
 
-export const createPrize = function (details, userId) {
-    db.ref('prizes').push({ userId: userId, ...details });
+export const updateObject = function (table, data) {
+    let object = separateId(data);
+    db.ref(`${table}/${object.id}/`).set(object.details);
+}
+
+export const deleteObject = function (table, id) {
+    db.ref(`${table}/${id}`).removeValue();
 }
 
 const separateId = function (object) {
     let { id, ...details } = object;
     return { id: id, details: details };
-}
-
-export const updateTask = function (taskData) {
-    let task = separateId(taskData);
-    db.ref(`tasks/${task.id}/`).set(task.details);
-}
-
-export const updatePrize = function (prizeData) {
-    let prize = separateId(prizeData);
-    db.ref(`prizes/${prize.id}/`).set(prize.details);
 }
 
 // let genericStructure = {
@@ -175,4 +162,14 @@ export const updatePrize = function (prizeData) {
 //             description:'description'
 //         },
 //     ]
+// }
+
+// const getFromKey = function (tableName, keyValue) {
+//     return new Promise(resolve => {
+//         db.ref(tableName).child(keyValue).get()
+//             .then(snapshot => {
+//                 resolve(snapshot);
+//             });
+//     })
+//         .then(r => r);
 // }

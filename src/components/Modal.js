@@ -2,7 +2,7 @@
 export default function Modal(props) {
     return <div className="modal">
         <div className={`modal-inner ${props.className}`}>
-            <div className="modal-close" onClick={props.close}>x</div>
+            <div className="close" onClick={props.close}>x</div>
             <div className="modal-title">{props.title}</div>
             <div className="modal-body">
                 {props.bodyIsArray ?

@@ -1,18 +1,16 @@
-import { GetInput } from '../redux/interface';
+import { GetInput } from 'redux/interface';
 import { useDispatch } from 'react-redux';
-import { updateInput } from '../redux/slices/inputsSlice';
+import { updateInput } from 'redux/slices/inputsSlice';
 
 export default function Input(props) {
     const dispatch = useDispatch();
 
-    const getInputType = function () {
+    const detectInputType = function () {
         switch (props.name) {
             case "email":
                 return "email";
             case "password":
                 return "password";
-            case "size":
-                return "number";
             default:
                 return "text";
         }
@@ -23,7 +21,16 @@ export default function Input(props) {
     }
 
     const setValue = function (e) {
-        dispatch(updateInput({ group: props.group, name: props.name, value: e.target.value }));
+        let value = e.target.value;
+        if (
+            !isNaN(props.decimalPlaces)
+            && value.includes('.')
+            && value.toString().split('.')[1].length > props.decimalPlaces
+        ) {
+            return;
+        }
+
+        dispatch(updateInput({ group: props.group, name: props.name, value: value }));
     }
 
     return (
@@ -31,10 +38,12 @@ export default function Input(props) {
         // <label htmlFor={props.name}>{props.humanName}</label>
         <input
             name={props.name}
-            type={getInputType()}
+            className={props.className}
+            type={props.type || detectInputType()}
             placeholder={props.humanName}
             onChange={setValue}
             value={getValue()}
+            disabled={props.disabled}
             {...props.attributes}
         />
         // </div>

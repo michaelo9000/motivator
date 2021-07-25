@@ -1,9 +1,10 @@
 import React from "react";
 import { useDispatch } from 'react-redux';
-import { createTask } from '../firebase/firebase';
-import { create } from '../redux/slices/taskSlice';
-import { GetReducer } from '../redux/interface';
-import Input from '../components/Input';
+import { createObject } from 'firebase-files/firebase';
+import { create } from 'redux/slices/taskSlice';
+import { clearForm } from 'redux/slices/inputsSlice';
+import { GetReducer } from 'redux/interface';
+import Input from 'components/Input';
 
 const groupName = "createTask";
 
@@ -15,8 +16,9 @@ export default function CreateTaskForm() {
     const submit = function (e) {
         e.preventDefault();
         let taskDetails = { ...inputs, count: 0 };
+        dispatch(clearForm(groupName));
         dispatch(create(taskDetails));
-        createTask(taskDetails, user.id);
+        createObject('tasks', taskDetails, user.id);
     }
 
     return (
@@ -24,7 +26,7 @@ export default function CreateTaskForm() {
             <h1>Create a new task</h1>
             <Input name="name" humanName="Task name" group={groupName} />
             <Input name="description" humanName="A short description" group={groupName} attributes={{ maxLength: "72" }} />
-            <Input name="time" humanName="Minutes to complete once" group={groupName} />
+            <Input name="time" type="number" decimalPlaces={0} humanName="Minutes to complete once" group={groupName} />
             <button>creat</button>
         </form>
     );

@@ -12,11 +12,16 @@ export const inputsSlice = createSlice({
                 state[pl.group] = {};
             state[pl.group][pl.name] = pl.value;
         },
+        clearForm: (state, action) => {
+            let group = action.payload;
+            if (state[group])
+                state[group] = {};
+        },
         clearAll: () => initialState
     }
 })
 
 // Action creators are generated for each case reducer function but you still have to fuckin list them all
-export const { updateInput, clearAll } = inputsSlice.actions
+export const { updateInput, clearAll, clearForm } = inputsSlice.actions
 
 export default inputsSlice.reducer

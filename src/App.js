@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { getCurrentUser, addListeners, getUserData, logOut as firebaseLogOut } from './firebase/firebase';
-import { GetReducer } from './redux/interface';
-import firebaseArrayConvert from './firebase/firebaseArrayConvert';
-import { logOut, error, clearError } from './redux/slices/userSlice';
-import { signIn as tasksSignIn, updateFromSnapshot as updateTask } from './redux/slices/taskSlice';
-import { signIn as prizesSignIn, updateFromSnapshot as updatePrizeFromSnapshot } from './redux/slices/prizeSlice';
-import { clearAll as clearAllInputs } from './redux/slices/inputsSlice';
-import CreateTaskForm from './components/CreateTaskForm';
-import CreatePrizeForm from './components/CreatePrizeForm';
-import Task from './components/Task';
-import Prize from './components/Prize';
-import Modal from './components/Modal';
-import SignInForm from './components/SignInForm';
-import Hoard from './components/Hoard';
-import { minutesPerToken } from './helpers/consts';
+import { getCurrentUser, addListeners, getUserData, logOut as firebaseLogOut } from 'firebase-files/firebase';
+import { GetReducer } from 'redux/interface';
+import firebaseArrayConvert from 'firebase-files/firebaseArrayConvert';
+import { logOut, error, clearError } from 'redux/slices/userSlice';
+import { signIn as tasksSignIn, updateFromSnapshot as updateTask } from 'redux/slices/taskSlice';
+import { signIn as prizesSignIn, updateFromSnapshot as updatePrizeFromSnapshot } from 'redux/slices/prizeSlice';
+import { clearAll as clearAllInputs } from 'redux/slices/inputsSlice';
+import CreateTaskForm from 'components/CreateTaskForm';
+import CreatePrizeForm from 'components/CreatePrizeForm';
+import Task from 'components/Task';
+import Prize from 'components/Prize';
+import Modal from 'components/Modal';
+import SignInForm from 'components/SignInForm';
+import Hoard from 'components/Hoard';
+import { minutesPerToken } from 'helpers/consts';
 
 export default function App() {
   const dispatch = useDispatch();
@@ -175,14 +175,14 @@ export default function App() {
           <div className="flex-row-wrap">
             <div className="flex-column">
               <h1>Prizes</h1>
-              {prizes.map((prize) =>
+              {prizes.filter(i => !i.removed).map((prize) =>
                 <Prize data={prize} user={user} confirm={setConfirmModal} tokenAnimation={tokenAnimation} userTokens={userTokenCount} key={prize.id} />
               )}
               <CreatePrizeForm />
             </div>
             <div className="flex-column">
               <h1>Tasks</h1>
-              {tasks.map((task) =>
+              {tasks.filter(i => !i.removed).map((task) =>
                 <Task data={task} key={task.id} confirm={setConfirmModal} tokenAnimation={tokenAnimation} />
               )}
               <CreateTaskForm />

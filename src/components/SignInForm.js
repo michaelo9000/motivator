@@ -1,12 +1,12 @@
 import React from "react";
-import { createUser, signInUser } from '../firebase/firebase';
+import { createUser, signInUser } from 'firebase-files/firebase';
 import { useDispatch } from 'react-redux';
-import { signIn, error, clearError } from '../redux/slices/userSlice';
-import { signIn as tasksSignIn } from '../redux/slices/taskSlice';
-import { signIn as prizesSignIn } from '../redux/slices/prizeSlice';
-import { clearAll as clearAllInputs } from '../redux/slices/inputsSlice';
-import { GetReducer } from '../redux/interface';
-import Input from './Input';
+import { signIn, error, clearError } from 'redux/slices/userSlice';
+import { signIn as tasksSignIn } from 'redux/slices/taskSlice';
+import { signIn as prizesSignIn } from 'redux/slices/prizeSlice';
+import { clearForm } from 'redux/slices/inputsSlice';
+import { GetReducer } from 'redux/interface';
+import Input from 'components/Input';
 
 const groupName = "signIn";
 
@@ -23,7 +23,7 @@ export default function SignInForm(props) {
 
         if (result.isSuccess) {
             dispatch(signIn(result));
-            dispatch(clearAllInputs());
+            dispatch(clearForm(groupName));
             dispatch(tasksSignIn(result.data.tasks));
             dispatch(prizesSignIn(result.data.prizes));
         }
@@ -34,7 +34,6 @@ export default function SignInForm(props) {
 
     const handleCreateUser = async function () {
         let details = { ...inputs, goalMinutesWeekly: inputs["goalMinutesDaily"] * inputs["goalDays"] };
-        debugger;
         return await createUser(details, props.userDataCallback);
     }
 
@@ -48,13 +47,13 @@ export default function SignInForm(props) {
             <Input name="email" humanName="Email" group={groupName} />
             <Input name="password" humanName="Password" group={groupName} />
             {!props.isSignIn &&
-                <Input name="budget" humanName="Weekly budget" group={groupName} />
+                <Input name="budget" type="number" decimalPlaces={2} humanName="Weekly budget" group={groupName} />
             }
             {!props.isSignIn &&
-                <Input name="goalMinutesDaily" humanName="Goal minutes per day" group={groupName} />
+                <Input name="goalMinutesDaily" type="number" decimalPlaces={0} humanName="Goal minutes per day" group={groupName} />
             }
             {!props.isSignIn &&
-                <Input name="goalDays" humanName="Goal days per week" group={groupName} />
+                <Input name="goalDays" type="number" decimalPlaces={0} humanName="Goal days per week" group={groupName} />
             }
             <button>do</button>
         </form>

@@ -1,0 +1,57 @@
+.close {
+    position: absolute;
+    top: 0;
+    // CSS is stupid
+    right: -0.2px;
+    @include flex();
+    padding-left: $container-border-width;
+    padding-bottom: $container-border-width;
+    width: 50px;
+    height: 50px;
+    background-color: black;
+    color: white;
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.edit {
+    @extend .close;
+    top: 50px;
+}
+.edit-icon {
+    @include flex(column);
+    transform: rotate(45deg);
+}
+.edit-icon-component {
+    background-color: white;
+    width: 7px;
+}
+.rubber-dome {
+    z-index: 0;
+    height: 3px;
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+}
+.rubber {
+    height: 5px;
+}
+.dome-border {
+    @extend .rubber-dome;
+    height: 3px;
+    background-color: black;
+    margin-top: -2px;
+}
+.dome {
+    @extend .rubber-dome;
+    margin-top: -1px;
+}
+.shaft {
+    height: 15px;
+}
+.tip {
+    background-color: black;
+    border: 3.5px solid transparent;
+    border-top-color: white;
+    border-bottom-width: 0;
+}

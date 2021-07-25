@@ -1,8 +1,31 @@
+task types:
+    regular - the basic form
+    one-off - delete once complete
+    keeper-uppers - do them x days in a row or x days per week to earn the reward
 
+dev site & database
+    some kind of release configuration in netlify to insert prod database key
 
-claimed rewards go into hoard, to be redeemed when they're used.
+edit tasks/prizes
 
-task types (x times per week or just whenevers)
+edit user details
+
+genericise tasks & prizes??
+
+Task and prize icons
+
+detect total budget remaining by assuming automatic payments go in every week  
+    get start date from user
+    
+solve the problem of some tasks being more difficult than others while taking the same amount of time
+    or not? maybe just dedicating the time to self improvement is the aim?
+
+retool the personal goals system - minutes per day, days per week.
+    what about weekends? 
+
+reward logging in every day
+    dust? X tokens for X consecutive logins? X logins per week?
+    OR for completing at least one task for each of the self-determined days-per-week?
 
 the wheeeeel - rounded token dust goes into a pool and generates golden tokens when there is enough.
 

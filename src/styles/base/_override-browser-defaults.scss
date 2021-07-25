@@ -54,12 +54,21 @@ textarea {
     &:-webkit-autofill:hover,
     &:-webkit-autofill:focus {
         // Crazy. Counteract autofill background color by making the transition to it 80 minutes long
-        transition: background-color 0s ease-in 9999s;
-        -webkit-text-fill-color: $input-text-color;
+        // transition: background-color 0s ease-in 9999s;
+        // -webkit-text-fill-color: $input-text-color;
     }
     &:focus {
         outline: none;
     }
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    display: none;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield; /* Firefox */
 }
 
 input {

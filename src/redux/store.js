@@ -10,10 +10,10 @@ import {
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
-import userReducer from './slices/userSlice';
-import inputsReducer from './slices/inputsSlice';
-import tasksReducer from './slices/taskSlice';
-import prizesReducer from './slices/prizeSlice';
+import userReducer from 'redux/slices/userSlice';
+import inputsReducer from 'redux/slices/inputsSlice';
+import tasksReducer from 'redux/slices/taskSlice';
+import prizesReducer from 'redux/slices/prizeSlice';
 
 const persistConfig = {
   key: 'root',
