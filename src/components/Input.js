@@ -33,7 +33,7 @@ export default function Input(props) {
     let editValue = GetInput(props.group, props.name);
     let displayValue = editValue;
 
-    if (!editValue && editValue != '')
+    if (!editValue && editValue !== '')
         displayValue = props.value;
 
     let size = displayValue ? displayValue.length : 10;
