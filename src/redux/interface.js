@@ -12,5 +12,5 @@ export function GetReducer(reducerName) {
 export function GetInput(group, name) {
     const state = useSelector(state => state);
     let groupInputs = state.inputs[group];
-    return groupInputs ? groupInputs[name] : '';
+    return groupInputs ? groupInputs[name] : null;
 }

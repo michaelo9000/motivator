@@ -1,3 +1,4 @@
+import autosize from 'autosize';
 import { GetInput } from 'redux/interface';
 import { useDispatch } from 'react-redux';
 import { updateInput } from 'redux/slices/inputsSlice';
@@ -30,26 +31,40 @@ export default function Input(props) {
     }
 
     let editValue = GetInput(props.group, props.name);
-    let value = editValue == null ? props.value : editValue;
-    let displayValue = props.disabled ? props.value : value;
+    let displayValue = editValue;
+
+    if (!editValue && editValue != '')
+        displayValue = props.value;
+
+    let size = displayValue ? displayValue.length : 10;
+    if (size < 3) size = 3;
 
     return (
         // <div>
         // <label htmlFor={props.name}>{props.humanName}</label>
-        <input
+        <Element
             name={props.name}
-            className={props.className}
+            className={`${props.className}${props.editing ? ' editing' : ''}`}
+            style={props.style}
             type={props.type || detectInputType()}
             placeholder={props.humanName}
             onChange={setValue}
             value={displayValue || ""}
             disabled={props.disabled}
             // Input default width is defined by its size. Size the input by the char length of its value.
-            size={displayValue ? displayValue.length : 10}
+            size={size}
             // This is so that I don't have to, in this component, 
             // provide for every possible input attribute one might want to use.
             {...props.attributes}
+            useTextarea={props.useTextarea}
         />
         // </div>
     );
+}
+
+function Element(props) {
+    let { useTextarea, ...elementProps } = props;
+    if (useTextarea)
+        autosize(document.querySelector('textarea'));
+    return useTextarea ? <textarea {...elementProps}></textarea> : <input {...elementProps} />
 }

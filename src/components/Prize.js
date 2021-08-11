@@ -1,15 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import { GetReducer } from 'redux/interface';
+import { clearForm } from "redux/slices/inputsSlice";
 import { updateObject } from 'firebase-files/firebase';
 import { updateFromLocal } from 'redux/slices/prizeSlice';
 import { minutesPerToken } from "helpers/consts";
 import { clearError, error } from 'redux/slices/userSlice';
+import Input from 'components/Input';
 
 export default function Prize(props) {
     let prize = props.data;
+    const groupName = `editPrize-${prize.id}`;
     let user = props.user;
+    const inputs = GetReducer('inputs')[groupName];
     let dispatch = useDispatch();
     let costTokens = Math.round(prize.costDollars / (user.budget / (user.goalMinutesWeekly / minutesPerToken)));
+    const [editing, setEditing] = useState();
 
     const claimPrize = function () {
         props.confirm(null);
@@ -58,17 +64,51 @@ export default function Prize(props) {
         });
     }
 
+    const confirmEdit = function () {
+        // Combine the existing object with the values held in inputs. Input values will overwrite object values.
+        let updatedPrize = { ...prize, ...inputs };
+
+        dispatch(updateFromLocal(updatedPrize));
+        updateObject('prizes', updatedPrize);
+
+        dispatch(clearForm(groupName));
+        setEditing();
+    }
+
     return (
         <div className="card">
             <div className="close" onClick={confirmRemove} >x</div>
+            <div className="edit" onClick={editing ? confirmEdit : setEditing}>
+                {editing ?
+                    '✓'
+                    :
+                    <div className="edit-icon">
+                        <div className="edit-icon-component rubber-dome" />
+                        <div className="edit-icon-component rubber" />
+                        <div className="edit-icon-component dome-border" />
+                        <div className="edit-icon-component dome" />
+                        <div className="edit-icon-component shaft" />
+                        <div className="edit-icon-component dome-border" />
+                        <div className="edit-icon-component dome" />
+                        <div className="edit-icon-component tip" />
+                    </div>
+                }
+            </div>
             <div className="flex between align-start">
                 <div className="card-text mb-20">
-                    <div className="card-name">{prize.name || "[name missing]"}</div>
-                    <div className="card-description">{prize.description || "[description missing]"}</div>
-                </div>
-                <div className="circle-button">
-                    <div onClick={confirmClaim} className="circle-button-surface">✓</div>
-                    <div className="circle-button-depth" />
+                    <div className="flex between align-start mb-20">
+                        <Input name="name" humanName="Task name" group={groupName}
+                            value={prize.name} editing={editing} disabled={!editing}
+                            attributes={{ maxLength: "18" }} className="blend-in bold" />
+                        <span style={{ display: editing ? 'initial' : 'none' }}>-</span>
+                        <Input name="costDollars" group={groupName}
+                            value={prize.costDollars} editing={editing} disabled={!editing}
+                            decimalPlaces={0} type="text" className="blend-in"
+                            style={{ display: editing ? 'initial' : 'none' }} />
+                    </div>
+                    <Input name="description" humanName="A short description" group={groupName}
+                        value={prize.description} editing={editing} disabled={!editing}
+                        attributes={{ maxLength: "72" }} className="blend-in" useTextarea />
                 </div>
             </div>
             <div className="flex between">
@@ -79,7 +119,10 @@ export default function Prize(props) {
                         tokens
                     </div>
                 </div>
-                <div className="card-icon"></div>
+                <div className="circle-button">
+                    <div onClick={confirmClaim} className="circle-button-surface">✓</div>
+                    <div className="circle-button-depth" />
+                </div>
                 <div className="card-value-circle count">
                     <div className="card-value">
                         Claimed

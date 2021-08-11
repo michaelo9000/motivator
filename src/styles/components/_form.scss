@@ -9,3 +9,12 @@ button {
 input.blend-in {
     line-height: 27px;
 }
+input.editing {
+    background-color: orange;
+}
+
+textarea {
+    @extend input;
+    resize: none;
+    width: 100%;
+}

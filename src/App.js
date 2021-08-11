@@ -48,7 +48,6 @@ export default function App() {
     }
 
     if (!hasListeners && user.id) {
-      console.log('added listeneers');
       hasListeners = true;
       addListeners(user.id, userDataCallback);
       let userData = await getUserData(user.id);

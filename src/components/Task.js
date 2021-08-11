@@ -7,10 +7,9 @@ import { clearForm } from "redux/slices/inputsSlice";
 import { minutesPerToken } from "helpers/consts";
 import Input from 'components/Input';
 
-const groupName = 'editTask';
-
 export default function Task(props) {
     let task = props.data;
+    const groupName = `editTask-${task.id}`;
     let dispatch = useDispatch();
     const inputs = GetReducer('inputs')[groupName];
     let reward = Math.round(task.time / minutesPerToken) || 0;
@@ -86,20 +85,19 @@ export default function Task(props) {
             </div>
             <div className="flex between align-start">
                 <div className="card-text mb-20">
-                    <div className="flex between align-start">
-                        <Input name="name" humanName="Task name" value={task.name}
-                            disabled={!editing} group={groupName} attributes={{ maxLength: "15" }}
-                            className="blend-in bold" />
-                        {/* <div className="card-name">{task.name || "[name missing]"}</div> */}
+                    <div className="flex between align-start mb-20">
+                        <Input name="name" humanName="Task name" group={groupName}
+                            value={task.name} editing={editing} disabled={!editing}
+                            attributes={{ maxLength: "18" }} className="blend-in bold" />
                         -
-                        <div className="card-name-companion">{task.time} minutes</div>
-
-                        {/* <Input name="description" humanName="A short description" group={groupName} attributes={{ maxLength: "72" }} />
-            <Input name="time" type="number" decimalPlaces={0} humanName="Minutes to complete once" group={groupName} /> */}
+                        <Input name="time" group={groupName}
+                            value={task.time} editing={editing} disabled={!editing}
+                            decimalPlaces={0} type="text" className="blend-in" />
                     </div>
-                    <div className="card-description">{task.description || "[description missing]"}</div>
+                    <Input name="description" humanName="A short description" group={groupName}
+                        value={task.description} editing={editing} disabled={!editing}
+                        attributes={{ maxLength: "72" }} className="blend-in" useTextarea />
                 </div>
-                {/* <div className="card-icon"></div> */}
             </div>
             <div className="flex between">
                 <div className="card-value-circle reward">

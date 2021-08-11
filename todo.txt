@@ -1,3 +1,6 @@
+
+track task completion dates, display on calendar
+
 task types:
     regular - the basic form
     one-off - delete once complete
@@ -6,9 +9,13 @@ task types:
 dev site & database
     some kind of release configuration in netlify to insert prod database key
 
-edit tasks/prizes
-
 edit user details
+
+graph of task completion
+
+interpretations of completion dates , e.g. tuesdays are your busiest
+
+bonuses for low days
 
 genericise tasks & prizes??
 
@@ -18,6 +25,7 @@ detect total budget remaining by assuming automatic payments go in every week
     get start date from user
     
 solve the problem of some tasks being more difficult than others while taking the same amount of time
+    boost/nerf?
     or not? maybe just dedicating the time to self improvement is the aim?
 
 retool the personal goals system - minutes per day, days per week.
