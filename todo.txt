@@ -1,5 +1,6 @@
 
-track task completion dates, display on calendar
+
+token reward for completing something every day / streaks
 
 task types:
     regular - the basic form
@@ -17,7 +18,7 @@ interpretations of completion dates , e.g. tuesdays are your busiest
 
 bonuses for low days
 
-genericise tasks & prizes??
+genericise task & prize components??
 
 Task and prize icons
 

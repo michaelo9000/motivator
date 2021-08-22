@@ -33,7 +33,7 @@ p {
     margin: 0;
 }
 
-button {
+.button {
     border: none;
     color: inherit;
     font-family: inherit;
@@ -46,17 +46,9 @@ button {
 }
 
 input,
-button,
+.button,
 textarea {
     font-size: 18px;
-    //todo how is focus conveyed?
-    &:-webkit-autofill,
-    &:-webkit-autofill:hover,
-    &:-webkit-autofill:focus {
-        // Crazy. Counteract autofill background color by making the transition to it 80 minutes long
-        // transition: background-color 0s ease-in 9999s;
-        // -webkit-text-fill-color: $input-text-color;
-    }
     &:focus {
         outline: none;
     }

@@ -27,7 +27,7 @@ export default function CreatePrizeForm() {
             <Input name="name" humanName="Prize name" group={groupName} />
             <Input name="description" humanName="A short description" group={groupName} attributes={{ maxLength: "72" }} />
             <Input name="costDollars" type="number" decimalPlaces={2} humanName="Cost ($)" group={groupName} />
-            <button>creat</button>
+            <button className="button">creat</button>
         </form>
     );
 }

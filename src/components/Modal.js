@@ -13,7 +13,7 @@ export default function Modal(props) {
                     </div>
                 }
                 {props.buttonFunction &&
-                    <button onClick={props.buttonFunction}>
+                    <button className="button" onClick={props.buttonFunction}>
                         {props.buttonText}
                     </button>
                 }

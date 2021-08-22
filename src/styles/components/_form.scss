@@ -2,7 +2,7 @@ form {
     @extend %container;
 }
 input:not(.blend-in),
-button {
+.button {
     @extend %rectangle;
 }
 

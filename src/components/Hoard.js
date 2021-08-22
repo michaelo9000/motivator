@@ -55,7 +55,7 @@ function Coupon(props) {
                 </div>
                 <Barcode maxWidth={100} />
             </div>
-            <button disabled={buttonDisabled || props.redeemed} onClick={redeem}>REDEEM {props.prize.name}</button>
+            <button className="button" disabled={buttonDisabled || props.redeemed} onClick={redeem}>REDEEM {props.prize.name}</button>
         </div>
     </div>
 }

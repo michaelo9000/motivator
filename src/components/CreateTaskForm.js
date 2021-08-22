@@ -27,7 +27,7 @@ export default function CreateTaskForm() {
             <Input name="name" humanName="Task name" group={groupName} attributes={{ maxLength: "18" }} />
             <Input name="description" humanName="A short description" group={groupName} attributes={{ maxLength: "72" }} />
             <Input name="time" type="number" decimalPlaces={0} humanName="Minutes to complete once" group={groupName} />
-            <button>creat</button>
+            <button className="button">creat</button>
         </form>
     );
 }

@@ -23,6 +23,9 @@
     background-color: white;
     color: red;
     font-size: 12px;
+    @include mobile {
+        @include circle(80px);
+    }
 }
 .card-value {
     @include flex(column);
@@ -31,4 +34,7 @@
     font-size: 250%;
     font-weight: bold;
     line-height: 100%;
+    @include mobile {
+        font-size: 150%;
+    }
 }

@@ -6,6 +6,8 @@ import { GetReducer } from 'redux/interface';
 import { clearForm } from "redux/slices/inputsSlice";
 import { minutesPerToken } from "helpers/consts";
 import Input from 'components/Input';
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
 
 export default function Task(props) {
     let task = props.data;
@@ -23,6 +25,12 @@ export default function Task(props) {
         setTimeout(() => {
             let count = task.count || 0;
             task.count = count + 1;
+
+            let completions = task.completions ? Object.assign([], task.completions) : [];
+            let date = new Date();
+            completions.push(date.toLocaleDateString('en-NZ'));
+            task.completions = completions;
+
             dispatch(updateFromLocal(task));
             updateObject('tasks', task);
         }, 1000);
@@ -50,6 +58,13 @@ export default function Task(props) {
             body: `Any unused tokens will remain, but you will no longer be able to complete this task. There is currently no undo for this action.`,
             buttonText: 'Remove',
             callback: removeTask,
+        });
+    }
+
+    const showCalendar = function () {
+        props.confirm({
+            title: `Progress for ${task.name}`,
+            body: <EventCalendar eventDates={task.completions} />
         });
     }
 
@@ -82,6 +97,13 @@ export default function Task(props) {
                         <div className="edit-icon-component tip" />
                     </div>
                 }
+            </div>
+            <div className="calendar" onClick={showCalendar}>
+                <div className="calendar-icon">
+                    <div className="calendar-icon-hook left" />
+                    <div className="calendar-icon-hook right" />
+                    <div className="calendar-icon-inner"></div>
+                </div>
             </div>
             <div className="flex between align-start">
                 <div className="card-text mb-20">
@@ -121,4 +143,26 @@ export default function Task(props) {
             </div>
         </div>
     );
+}
+
+function EventCalendar(props) {
+    const [selectedDate, selectDate] = useState();
+    // let eventDates = props.events.map(event => event.dates)
+
+    const tileClassName = function ({ date, view }) {
+        if (view === 'month' && props.eventDates) {
+            if (props.eventDates.find(dDate => dDate === date.toLocaleDateString('en-NZ'))) {
+                return 'has-event';
+            }
+        }
+    }
+
+    return <div>
+        <Calendar
+            onChange={selectDate}
+            value={selectedDate}
+            tileClassName={tileClassName}
+        />
+        {/* <h3>Tasks completed on {selectedDate}:</h3> */}
+    </div>
 }

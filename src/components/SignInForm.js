@@ -55,7 +55,7 @@ export default function SignInForm(props) {
             {!props.isSignIn &&
                 <Input name="goalDays" type="number" decimalPlaces={0} humanName="Goal days per week" group={groupName} />
             }
-            <button>do</button>
+            <button className="button">do</button>
         </form>
     );
 }

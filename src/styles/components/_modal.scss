@@ -17,6 +17,9 @@
 
 .modal-title {
     font-size: 150%;
+    // So that the close button doesn't overlap.
+    width: calc(100% - 50px);
+    text-align: left;
 }
 
 .modal-body {
