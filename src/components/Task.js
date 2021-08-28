@@ -17,7 +17,9 @@ export default function Task(props) {
     let reward = Math.round(task.time / minutesPerToken) || 0;
     const [editing, setEditing] = useState();
 
-    const completeTask = function () {
+    const completeTask = function (completionDate) {
+        let isDate = typeof completionDate.toLocaleDateString === 'function';
+
         props.confirm(null);
 
         props.tokenAnimation(reward);
@@ -27,7 +29,7 @@ export default function Task(props) {
             task.count = count + 1;
 
             let completions = task.completions ? Object.assign([], task.completions) : [];
-            let date = new Date();
+            let date = isDate ? completionDate : new Date();
             completions.push(date.toLocaleDateString('en-NZ'));
             task.completions = completions;
 
@@ -36,12 +38,20 @@ export default function Task(props) {
         }, 1000);
     }
 
-    const confirm = function () {
+    const updateCompletionDateHandler = function (date) {
+        // Force the confirm modal to re-render with the new date.
+        confirm(date);
+    }
+
+    const confirm = function (date) {
         props.confirm({
             title: `Complete ${task.name}`,
-            body: `${reward} tokens are coming your way!`,
+            body: <div>
+                <p>{reward} tokens are coming your way!</p>
+                <CompletionCalendar value={date} onChange={updateCompletionDateHandler} />
+            </div>,
             buttonText: 'i did it',
-            callback: completeTask,
+            callback: () => completeTask(date),
         });
     }
 
@@ -143,6 +153,19 @@ export default function Task(props) {
             </div>
         </div>
     );
+}
+
+function CompletionCalendar(props) {
+    const [showConfirmCalendar, toggleConfirmCalendar] = useState();
+
+    return <div>
+        <p onClick={() => toggleConfirmCalendar(!showConfirmCalendar)} className="look-a-link mb-10">
+            {showConfirmCalendar ? 'hide calendar' : 'enter a date'}
+        </p>
+        {showConfirmCalendar &&
+            <Calendar value={props.completionDate} onChange={props.onChange} />
+        }
+    </div>
 }
 
 function EventCalendar(props) {

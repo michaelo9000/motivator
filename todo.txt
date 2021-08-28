@@ -1,6 +1,19 @@
-
+optional enter date for tasks
 
 token reward for completing something every day / streaks
+
+reward logging in every day
+    dust? X tokens for X consecutive logins? X logins per week?
+    OR for completing at least one task for each of the self-determined days-per-week?
+
+NEW system of reward determination!
+    For each task, user enters:
+        - Effort /10
+        - Time in minutes
+    Task reward = (minutes / 10) * (effort / 10)
+    Task reward total = ((task goal minutes * task goal times) / 10) * (effort / 10)
+    Reward total = sum(task reward total)
+    Prize cost = (cost dollars / budget) * reward total
 
 task types:
     regular - the basic form
@@ -28,13 +41,16 @@ detect total budget remaining by assuming automatic payments go in every week
 solve the problem of some tasks being more difficult than others while taking the same amount of time
     boost/nerf?
     or not? maybe just dedicating the time to self improvement is the aim?
+    or determine weekly minutes by desired tasks and task completions per week?
+        would mean task rewards are diluted when adding new tasks, 
+        but could suggest that user increases budget at the same time
+    or user puts their tasks on a sliding scale which determines 'effort points' per task?
+        effort points replace minutes. 
+        same problem with reward dilution.
 
 retool the personal goals system - minutes per day, days per week.
     what about weekends? 
 
-reward logging in every day
-    dust? X tokens for X consecutive logins? X logins per week?
-    OR for completing at least one task for each of the self-determined days-per-week?
 
 the wheeeeel - rounded token dust goes into a pool and generates golden tokens when there is enough.
 
