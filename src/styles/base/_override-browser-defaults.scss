@@ -27,6 +27,11 @@ body {
     @include mobile {
         font-size: 16px;
     }
+    @media only screen and (max-width:359px){
+        padding-left:0;
+        padding-right:0;
+        padding-top: calc(#{$site-padding} + calc(#{$hud-item-height} * 2));
+    }
 }
 
 p {

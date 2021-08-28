@@ -49,12 +49,6 @@ export default function SignInForm(props) {
             {!props.isSignIn &&
                 <Input name="budget" type="number" decimalPlaces={2} humanName="Weekly budget" group={groupName} />
             }
-            {!props.isSignIn &&
-                <Input name="goalMinutesDaily" type="number" decimalPlaces={0} humanName="Goal minutes per day" group={groupName} />
-            }
-            {!props.isSignIn &&
-                <Input name="goalDays" type="number" decimalPlaces={0} humanName="Goal days per week" group={groupName} />
-            }
             <button className="button">do</button>
         </form>
     );

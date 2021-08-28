@@ -1,4 +1,3 @@
-import autosize from 'autosize';
 import { GetInput } from 'redux/interface';
 import { useDispatch } from 'react-redux';
 import { updateInput } from 'redux/slices/inputsSlice';
@@ -36,7 +35,7 @@ export default function Input(props) {
     if (!editValue && editValue !== '')
         displayValue = props.value;
 
-    let size = displayValue ? displayValue.length : 10;
+    let size = displayValue ? displayValue.length : 5;
     if (size < 3) size = 3;
 
     return (
@@ -65,6 +64,7 @@ export default function Input(props) {
 function Element(props) {
     let { useTextarea, ...elementProps } = props;
     if (useTextarea)
-        autosize(document.querySelector('textarea'));
+        // The Textarea is 30 characters wide, and one row is 27px high.
+        elementProps.style = { ...props.style, height: Math.ceil(props.size / 30) * 27 }
     return useTextarea ? <textarea {...elementProps}></textarea> : <input {...elementProps} />
 }

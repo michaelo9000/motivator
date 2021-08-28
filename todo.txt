@@ -1,19 +1,8 @@
-optional enter date for tasks
-
-token reward for completing something every day / streaks
-
 reward logging in every day
     dust? X tokens for X consecutive logins? X logins per week?
     OR for completing at least one task for each of the self-determined days-per-week?
-
-NEW system of reward determination!
-    For each task, user enters:
-        - Effort /10
-        - Time in minutes
-    Task reward = (minutes / 10) * (effort / 10)
-    Task reward total = ((task goal minutes * task goal times) / 10) * (effort / 10)
-    Reward total = sum(task reward total)
-    Prize cost = (cost dollars / budget) * reward total
+    token reward for completing something every day / streaks
+    BOTH? ALL?
 
 task types:
     regular - the basic form

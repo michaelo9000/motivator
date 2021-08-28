@@ -14,7 +14,7 @@ import Prize from 'components/Prize';
 import Modal from 'components/Modal';
 import SignInForm from 'components/SignInForm';
 import Hoard from 'components/Hoard';
-import { minutesPerToken } from 'helpers/consts';
+import { getPrizeCost, getTaskReward, getUserRewardTotal } from 'helpers/calculations';
 
 var authUser = {};
 var hasListeners = false;
@@ -84,14 +84,14 @@ export default function App() {
   }
 
   let userTokenEarnedCount = tasks.reduce((count, task) =>
-    count += (Math.round(task.time / minutesPerToken) * task.count)
+    count += (getTaskReward(task) * task.count)
     , 0
   );
 
-  let somethingWhatIsThisIdkItWorks = (user.budget / (user.goalMinutesWeekly / minutesPerToken))
+  let rewardTotal = getUserRewardTotal(tasks);
 
   let userTokenSpentCount = prizes.reduce((count, prize) =>
-    count += Math.round(prize.costDollars / somethingWhatIsThisIdkItWorks) * prize.claimed
+    count += getPrizeCost(prize, rewardTotal, user.budget) * prize.claimed
     , 0
   );
 
@@ -178,7 +178,7 @@ export default function App() {
             <div className="flex-column">
               <h1>Prizes</h1>
               {prizes.filter(i => !i.removed).map((prize) =>
-                <Prize data={prize} user={user} confirm={setConfirmModal} tokenAnimation={tokenAnimation} userTokens={userTokenCount} key={prize.id} />
+                <Prize data={prize} user={{ ...user, rewardTotal: rewardTotal }} confirm={setConfirmModal} tokenAnimation={tokenAnimation} userTokens={userTokenCount} key={prize.id} />
               )}
               <CreatePrizeForm />
             </div>

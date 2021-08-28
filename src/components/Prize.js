@@ -4,9 +4,9 @@ import { GetReducer } from 'redux/interface';
 import { clearForm } from "redux/slices/inputsSlice";
 import { updateObject } from 'firebase-files/firebase';
 import { updateFromLocal } from 'redux/slices/prizeSlice';
-import { minutesPerToken } from "helpers/consts";
 import { clearError, error } from 'redux/slices/userSlice';
 import Input from 'components/Input';
+import { getPrizeCost } from "helpers/calculations";
 
 export default function Prize(props) {
     let prize = props.data;
@@ -14,7 +14,7 @@ export default function Prize(props) {
     let user = props.user;
     const inputs = GetReducer('inputs')[groupName];
     let dispatch = useDispatch();
-    let costTokens = Math.round(prize.costDollars / (user.budget / (user.goalMinutesWeekly / minutesPerToken)));
+    let costTokens = getPrizeCost(prize, user.rewardTotal, user.budget)
     const [editing, setEditing] = useState();
 
     const claimPrize = function () {
@@ -97,11 +97,11 @@ export default function Prize(props) {
             <div className="flex between align-start">
                 <div className="card-text mb-20">
                     <div className="flex between align-start mb-20">
-                        <Input name="name" humanName="Task name" group={groupName}
+                        <Input name="name" humanName="Prize name" group={groupName}
                             value={prize.name} editing={editing} disabled={!editing}
                             attributes={{ maxLength: "18" }} className="blend-in bold" />
                         <span style={{ display: editing ? 'initial' : 'none' }}>-</span>
-                        <Input name="costDollars" group={groupName}
+                        <Input name="costDollars" humanName="Cost ($)" group={groupName}
                             value={prize.costDollars} editing={editing} disabled={!editing}
                             decimalPlaces={0} type="text" className="blend-in"
                             style={{ display: editing ? 'initial' : 'none' }} />

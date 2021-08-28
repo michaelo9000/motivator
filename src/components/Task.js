@@ -4,17 +4,17 @@ import { updateFromLocal } from 'redux/slices/taskSlice';
 import { useDispatch } from "react-redux";
 import { GetReducer } from 'redux/interface';
 import { clearForm } from "redux/slices/inputsSlice";
-import { minutesPerToken } from "helpers/consts";
 import Input from 'components/Input';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
+import { getTaskReward } from "helpers/calculations";
 
 export default function Task(props) {
     let task = props.data;
     const groupName = `editTask-${task.id}`;
     let dispatch = useDispatch();
     const inputs = GetReducer('inputs')[groupName];
-    let reward = Math.round(task.time / minutesPerToken) || 0;
+    let reward = getTaskReward(task);
     const [editing, setEditing] = useState();
 
     const completeTask = function (completionDate) {
@@ -115,20 +115,34 @@ export default function Task(props) {
                     <div className="calendar-icon-inner"></div>
                 </div>
             </div>
-            <div className="flex between align-start">
-                <div className="card-text mb-20">
-                    <div className="flex between align-start mb-20">
-                        <Input name="name" humanName="Task name" group={groupName}
-                            value={task.name} editing={editing} disabled={!editing}
-                            attributes={{ maxLength: "18" }} className="blend-in bold" />
-                        -
-                        <Input name="time" group={groupName}
-                            value={task.time} editing={editing} disabled={!editing}
-                            decimalPlaces={0} type="text" className="blend-in" />
-                    </div>
+            <div className="flex-column between align-start">
+                <div className="card-text">
+                    <Input name="name" humanName="Task name" group={groupName}
+                        value={task.name} editing={editing} disabled={!editing}
+                        attributes={{ maxLength: "30" }} className="blend-in bold" />
                     <Input name="description" humanName="A short description" group={groupName}
                         value={task.description} editing={editing} disabled={!editing}
                         attributes={{ maxLength: "72" }} className="blend-in" useTextarea />
+                </div>
+                <div className="flex between align-start mb-10 flex-wrap">
+                    <div style={{ width: '32%' }}>
+                        <b>Time: </b>
+                        <Input name="time" group={groupName}
+                            value={task.time} editing={editing} disabled={!editing}
+                            decimalPlaces={0} type="number" className="blend-in" />
+                    </div>
+                    <div style={{ width: '32%' }}>
+                        <b>Days: </b>
+                        <Input name="goalCompletions" group={groupName}
+                            value={task.goalCompletions} editing={editing} disabled={!editing}
+                            decimalPlaces={0} type="number" className="blend-in" />
+                    </div>
+                    <div style={{ width: '32%' }}>
+                        <b>Challenge: </b>
+                        <Input name="challenge" group={groupName}
+                            value={task.challenge} editing={editing} disabled={!editing}
+                            decimalPlaces={0} type="number" className="blend-in" />
+                    </div>
                 </div>
             </div>
             <div className="flex between">
