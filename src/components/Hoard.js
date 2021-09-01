@@ -66,18 +66,20 @@ function Barcode(props) {
 
     // Always start with a line.
     let gapTime = false;
+    let key = 0;
 
     while (width < props.maxWidth - 5) {
         let bigTime = Math.random() > 0.5;
-        lines.push(<div className={`line ${bigTime ? 'thick' : 'thin'}${gapTime ? ' gap' : ''}`} />);
+        lines.push(<div key={key} className={`line ${bigTime ? 'thick' : 'thin'}${gapTime ? ' gap' : ''}`} />);
         // Always alternate.
         gapTime = !gapTime;
         width += bigTime ? 5 : 3;
+        key++;
     }
 
     // Always finish on a line too.
     if (!gapTime)
-        lines.push(<div className={`line thin`} />);
+        lines.push(<div key={key} className={`line thin`} />);
 
     return <div className="barcode">
         {lines}

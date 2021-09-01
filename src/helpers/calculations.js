@@ -17,5 +17,5 @@ export const getUserRewardTotal = function (tasks) {
 }
 
 export const getPrizeCost = function (prize, userRewardTotal, userBudget) {
-    return (prize.costDollars / userBudget) * userRewardTotal;
+    return Math.round((prize.costDollars / userBudget) * userRewardTotal);
 }

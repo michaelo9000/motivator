@@ -15,6 +15,7 @@ import Modal from 'components/Modal';
 import SignInForm from 'components/SignInForm';
 import Hoard from 'components/Hoard';
 import { getPrizeCost, getTaskReward, getUserRewardTotal } from 'helpers/calculations';
+// import { backfillWeeklyCompletions } from 'helpers/weeklyGoalsFunctions';
 
 var authUser = {};
 var hasListeners = false;
@@ -51,6 +52,11 @@ export default function App() {
       hasListeners = true;
       addListeners(user.id, userDataCallback);
       let userData = await getUserData(user.id);
+
+      // for (var taskKey in userData.tasks) {
+      //   userData.tasks[taskKey] = backfillWeeklyCompletions(userData.tasks[taskKey]);
+      // }
+
       dispatch(tasksSignIn(userData.tasks));
       dispatch(prizesSignIn(userData.prizes));
     }
@@ -95,7 +101,7 @@ export default function App() {
     , 0
   );
 
-  let userTokenCount = userTokenEarnedCount - userTokenSpentCount;
+  let userTokenCount = Math.round(userTokenEarnedCount - userTokenSpentCount);
 
   return (
     // TODO make loadingGate
